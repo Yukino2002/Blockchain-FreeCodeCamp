@@ -15,7 +15,7 @@ contract simpleStorage {
         favouriteNumber = _favouriteNumber; 
     }
 
-    // function type: view, pure
+    // function type: view: do not make a state change, pure
     function retrieve() public view returns(uint256) {
         return favouriteNumber;
     }
