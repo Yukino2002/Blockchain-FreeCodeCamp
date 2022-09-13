@@ -10,7 +10,7 @@ contract simpleStorage {
     // initialization by default sets variable to 0 
     uint256 favouriteNumber;
 
-    // access modifiers: public, internal, external private, default state internal
+    // access modifiers: public, internal, external, private, default state internal
     function store(uint256 _favouriteNumber) public {
         favouriteNumber = _favouriteNumber; 
     }
