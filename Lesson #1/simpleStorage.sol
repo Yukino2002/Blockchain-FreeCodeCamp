@@ -7,16 +7,16 @@ pragma solidity >=0.6.0 <0.9.0;
 // define a contract
 contract simpleStorage {
     // variable types: bool, string, int256, address, bytes32 etc.
-    // initialization by default sets variable to 0 
+    // initialization by default sets variable to 0
     uint256 favouriteNumber;
 
     // access modifiers: public, internal, external, private, default state internal
     function store(uint256 _favouriteNumber) public {
-        favouriteNumber = _favouriteNumber; 
+        favouriteNumber = _favouriteNumber;
     }
 
     // function type: view: do not make a state change, pure
-    function retrieve() public view returns(uint256) {
+    function retrieve() public view returns (uint256) {
         return favouriteNumber;
     }
 
