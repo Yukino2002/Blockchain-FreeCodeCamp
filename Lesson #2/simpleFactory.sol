@@ -6,11 +6,11 @@ pragma solidity >=0.6.0 <=0.9.0;
 import "../Lesson #1/simpleStorage.sol";
 
 // 'is' keyword is used to inherit from other contracts
-contract simpleFactory is simpleStorage {
-    simpleStorage[] public simpleStorageArray;
+contract SimpleFactory is SimpleStorage {
+    SimpleStorage[] public simpleStorageArray;
 
     function createSimpleStorageContract() public {
-        simpleStorage newSimpleStorage = new simpleStorage();
+        SimpleStorage newSimpleStorage = new SimpleStorage();
         simpleStorageArray.push(newSimpleStorage);
     }
 
@@ -19,14 +19,14 @@ contract simpleFactory is simpleStorage {
     {
         // we need to the address of the contract we want to interact with
         // ABI: Application Binary Interface
-        simpleStorage(address(simpleStorageArray[_simpleStorageIndex])).store(
+        SimpleStorage(address(simpleStorageArray[_simpleStorageIndex])).store(
             _favouriteNumber
         );
     }
 
     function sfGet(uint256 _simpleStorageIndex) public view returns (uint256) {
         return
-            simpleStorage(address(simpleStorageArray[_simpleStorageIndex]))
+            SimpleStorage(address(simpleStorageArray[_simpleStorageIndex]))
                 .retrieve();
     }
 }

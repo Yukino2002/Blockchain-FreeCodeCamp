@@ -35,14 +35,45 @@ interface AggregatorV3Interface {
         );
 }
 
-contract fundMe {
+contract FundMe {
+    address public owner;
+
+    // visiibilty of constructor is not needed by default
+    constructor() {
+        owner = msg.sender;
+    }
+
     // amount of money sent to the smart contract
     mapping(address => uint256) public addressToAmountFunded;
+    address[] public funders;
+
+    // like decorator, pass as type with the function itself
+    modifier onlyOwner() {
+        require(msg.sender == owner);
+        _;
+    }
 
     // payable type function
     function fund() public payable {
+        uint256 minimumUSD = 50 * 1e18;
+        // sends a revert message showing error if requirement is not met
+        require(
+            getConversionRate(msg.value) >= minimumUSD,
+            "You need to spend more ETH!"
+        );
         // msg.sender and msg.value are keywords as
         addressToAmountFunded[msg.sender] += msg.value;
+        funders.push(msg.sender);
+    }
+
+    function withdraw() public payable onlyOwner {
+        // msg.sender is the address of the person who called the function
+        address payable recipent = payable(msg.sender);
+        recipent.transfer(address(this).balance);
+        for (uint256 funderIndex = 0; funderIndex < funders.length; funderIndex++) {
+            address funder = funders[funderIndex];
+            addressToAmountFunded[funder] = 0;
+        }
     }
 
     // USD as currency, ETH -> USD conversion rate, using Oracles
@@ -63,6 +94,12 @@ contract fundMe {
         (, int256 answer, , , ) = priceFeed.latestRoundData();
 
         // type casting to approviate type
-        return uint256(answer);
+        return uint256(answer * 1e10);
+    }
+
+    function getConversionRate(uint256 amount) public view returns (uint256) {
+        uint256 price = getPrice();
+        uint256 conversion = (amount * price) / 1e18;
+        return conversion;
     }
 }

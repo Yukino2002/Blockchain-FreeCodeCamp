@@ -5,7 +5,7 @@
 pragma solidity >=0.6.0 <0.9.0;
 
 // define a contract
-contract simpleStorage {
+contract SimpleStorage {
     // variable types: bool, string, int256, address, bytes32 etc.
     // initialization by default sets variable to 0
     uint256 favouriteNumber;
